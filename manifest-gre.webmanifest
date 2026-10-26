@@ -1,0 +1,31 @@
+{
+ "id": "./gre.html",
+ "name": "Тренажёр GRE",
+ "short_name": "GRE",
+ "lang": "ru",
+ "start_url": "./gre.html",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#ECEEF2",
+ "theme_color": "#0E7461",
+ "icons": [
+  {
+   "src": "icons/gre-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/gre-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/gre-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#ECEEF2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E131A" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Экзамены">
+<link rel="manifest" href="manifest-exams.webmanifest">
+<link rel="apple-touch-icon" href="icons/exams-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/exams-32.png">
+<link rel="stylesheet" href="fonts.css">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Экзамены: IELTS · GRE · DELF</title>
+
+
+<style>
+/* Layout: cover hero → three admission tickets (stub with countdown | body) → phone hand-off (QR + links) → install steps */
+:root{
+  --bg:#ECEEF2; --surface:#FFFFFF; --surface-2:#E2E6EC; --ink:#131C26; --muted:#5A6573; --line:#D3D9E1;
+  --ielts:#B42334; --gre:#0E7461; --delf:#2F5BB7; --on-acc:#FFFFFF;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E131A; --surface:#161D26; --surface-2:#1F2833; --ink:#E5EAF0; --muted:#97A2B0; --line:#2B3541;
+    --ielts:#E0505F; --gre:#2FAE8F; --delf:#5C86E0; --on-acc:#0E131A; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E131A; --surface:#161D26; --surface-2:#1F2833; --ink:#E5EAF0; --muted:#97A2B0; --line:#2B3541;
+  --ielts:#E0505F; --gre:#2FAE8F; --delf:#5C86E0; --on-acc:#0E131A; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* cover */
+.cover{padding-block:40px 28px}
+.eyebrow{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(40px,8.4vw,92px);line-height:.98;letter-spacing:-.01em;margin:14px 0 18px;display:flex;flex-wrap:wrap;gap:0 .32em;align-items:baseline}
+h1 .i{color:var(--ielts)} h1 .g{color:var(--gre)} h1 .d{color:var(--delf)}
+h1 .dot{color:var(--line);font-weight:500}
+.lede{max-width:62ch;color:var(--muted);font-size:16.5px;margin:0}
+.lede b{color:var(--ink);font-weight:600}
+
+/* tickets */
+.tickets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-block:8px 36px}
+.ticket{--acc:var(--ielts);position:relative;display:grid;grid-template-rows:auto auto 1fr;background:var(--surface);border-radius:16px;overflow:hidden;box-shadow:0 1px 0 var(--line),0 10px 30px -18px rgba(20,30,45,.45);min-width:0}
+.ticket.gre{--acc:var(--gre)} .ticket.delf{--acc:var(--delf)}
+.stub{background:var(--acc);color:var(--on-acc);padding:22px 20px 22px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;position:relative}
+.stub .code{font-family:var(--f-display);font-weight:800;font-size:clamp(30px,3.6vw,40px);line-height:1;letter-spacing:-.01em}
+.stub .days{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;line-height:1}
+.stub .days .n{display:block;font-size:32px;font-weight:600;letter-spacing:-.02em}
+.stub .days .u{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.9}
+.stub .days.none .n{font-size:18px;font-weight:600;letter-spacing:0}
+.perf{height:0;border-top:2px dashed var(--line);margin:0 16px}
+.ticket::before,.ticket::after{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:var(--bg);top:calc(var(--stub-h,104px) - 11px);z-index:1}
+.ticket::before{left:-11px} .ticket::after{right:-11px}
+.body{padding:16px 20px 20px;display:flex;flex-direction:column;gap:14px}
+.body h2{font-family:var(--f-display);font-weight:600;font-size:21px;line-height:1.2;margin:0}
+.body .sub{color:var(--muted);font-size:14px;margin-top:2px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px;margin:0}
+.kv dt{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.kv dd{margin:0;font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font-size:12.5px;border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--muted)}
+.date{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.date input{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 8px;font-family:var(--f-mono);font-size:13px}
+.open{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;text-decoration:none;background:var(--acc);color:var(--on-acc);font-weight:600;padding:12px 16px;border-radius:10px}
+.open:hover{filter:brightness(1.08)}
+.open .arr{font-family:var(--f-mono)}
+
+/* sections */
+section.blk{padding-block:8px 34px}
+h3{font-family:var(--f-display);font-weight:600;font-size:clamp(20px,2.6vw,26px);margin:0 0 14px;line-height:1.2}
+.handoff{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;background:var(--surface);border-radius:16px;padding:22px;box-shadow:0 1px 0 var(--line)}
+.qr{width:188px;display:flex;flex-direction:column;gap:8px;align-items:center}
+.qr .box{width:188px;height:188px;background:#FFFFFF;border-radius:12px;padding:10px;border:1px solid var(--line)}
+.qr .box svg{display:block;width:100%;height:100%}
+.qr .cap{font-size:12.5px;color:var(--muted);text-align:center}
+.links{display:flex;flex-direction:column;gap:2px;min-width:0}
+.lrow{display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.lrow:last-child{border-bottom:0}
+.lrow i{width:12px;height:12px;border-radius:3px;background:var(--ink)}
+.lrow .t{font-weight:600}
+.lrow .u{font-family:var(--f-mono);font-size:12.5px;color:var(--muted);overflow-wrap:anywhere;user-select:all}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 12px;font:inherit;font-size:13.5px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.step{background:var(--surface);border-radius:14px;padding:18px 20px;box-shadow:0 1px 0 var(--line);min-width:0}
+.step h4{margin:0 0 10px;font-size:16px;display:flex;gap:10px;align-items:center}
+.step h4 .tag{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
+.step ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px;font-size:14.5px}
+.step b{font-weight:600}
+.note{color:var(--muted);font-size:14px;max-width:80ch;margin:14px 0 0}
+.sync{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;z-index:50}
+footer{padding-block:6px 40px;color:var(--muted);font-size:13px}
+.icons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:18px}
+.icon{background:var(--surface);border-radius:14px;padding:16px 14px;display:flex;flex-direction:column;gap:10px;align-items:center;box-shadow:0 1px 0 var(--line);min-width:0}
+.icon img{width:100%;max-width:148px;aspect-ratio:1;border-radius:22%;display:block;-webkit-touch-callout:default}
+.icon .nm{font-weight:600;font-size:14px}
+.steps.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+@media (max-width:900px){
+  .tickets{grid-template-columns:minmax(0,1fr)}
+  .steps,.steps.two{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:620px){
+  .handoff{grid-template-columns:minmax(0,1fr)}
+  .qr{width:100%}
+  .icons{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cover{padding-block:26px 18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="cover">
+    <div class="eyebrow">Магистратура 2027 · подготовка к экзаменам</div>
+    <h1 aria-label="IELTS, GRE, DELF"><span class="i">IELTS</span><span class="dot">·</span><span class="g">GRE</span><span class="dot">·</span><span class="d">DELF</span></h1>
+    <p class="lede">Три тренажёра с разбором заданий, шаблонами, оборотами, практикой с проверкой и словарём. <b>Работает как приложение:</b> открывается с иконки на весь экран и без интернета. Прогресс хранится на устройстве, а перенести его на другое можно файлом.</p>
+  </header>
+
+  <div class="tickets" id="tickets"></div>
+
+  <section class="blk" aria-labelledby="h-phone">
+    <h3 id="h-phone">Открыть на телефоне</h3>
+    <div class="handoff">
+      <div class="qr">
+        <div class="box" role="img" aria-label="QR-код со ссылкой на эту страницу"><svg viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect width="35" height="35" fill="#FFFFFF"/><path d="M1,1h1v1h-1zM2,1h1v1h-1zM3,1h1v1h-1zM4,1h1v1h-1zM5,1h1v1h-1zM6,1h1v1h-1zM7,1h1v1h-1zM12,1h1v1h-1zM13,1h1v1h-1zM14,1h1v1h-1zM17,1h1v1h-1zM18,1h1v1h-1zM20,1h1v1h-1zM24,1h1v1h-1zM27,1h1v1h-1zM28,1h1v1h-1zM29,1h1v1h-1zM30,1h1v1h-1zM31,1h1v1h-1zM32,1h1v1h-1zM33,1h1v1h-1zM1,2h1v1h-1zM7,2h1v1h-1zM14,2h1v1h-1zM15,2h1v1h-1zM16,2h1v1h-1zM17,2h1v1h-1zM18,2h1v1h-1zM23,2h1v1h-1zM27,2h1v1h-1zM33,2h1v1h-1zM1,3h1v1h-1zM3,3h1v1h-1zM4,3h1v1h-1zM5,3h1v1h-1zM7,3h1v1h-1zM9,3h1v1h-1zM10,3h1v1h-1zM11,3h1v1h-1zM12,3h1v1h-1zM14,3h1v1h-1zM17,3h1v1h-1zM18,3h1v1h-1zM19,3h1v1h-1zM27,3h1v1h-1zM29,3h1v1h-1zM30,3h1v1h-1zM31,3h1v1h-1zM33,3h1v1h-1zM1,4h1v1h-1zM3,4h1v1h-1zM4,4h1v1h-1zM5,4h1v1h-1zM7,4h1v1h-1zM9,4h1v1h-1zM10,4h1v1h-1zM15,4h1v1h-1zM16,4h1v1h-1zM17,4h1v1h-1zM21,4h1v1h-1zM22,4h1v1h-1zM23,4h1v1h-1zM25,4h1v1h-1zM27,4h1v1h-1zM29,4h1v1h-1zM30,4h1v1h-1zM31,4h1v1h-1zM33,4h1v1h-1zM1,5h1v1h-1zM3,5h1v1h-1zM4,5h1v1h-1zM5,5h1v1h-1zM7,5h1v1h-1zM9,5h1v1h-1zM11,5h1v1h-1zM14,5h1v1h-1zM16,5h1v1h-1zM19,5h1v1h-1zM25,5h1v1h-1zM27,5h1v1h-1zM29,5h1v1h-1zM30,5h1v1h-1zM31,5h1v1h-1zM33,5h1v1h-1zM1,6h1v1h-1zM7,6h1v1h-1zM9,6h1v1h-1zM11,6h1v1h-1zM13,6h1v1h-1zM16,6h1v1h-1zM17,6h1v1h-1zM19,6h1v1h-1zM21,6h1v1h-1zM23,6h1v1h-1zM27,6h1v1h-1zM33,6h1v1h-1zM1,7h1v1h-1zM2,7h1v1h-1zM3,7h1v1h-1zM4,7h1v1h-1zM5,7h1v1h-1zM6,7h1v1h-1zM7,7h1v1h-1zM9,7h1v1h-1zM11,7h1v1h-1zM13,7h1v1h-1zM15,7h1v1h-1zM17,7h1v1h-1zM19,7h1v1h-1zM21,7h1v1h-1zM23,7h1v1h-1zM25,7h1v1h-1zM27,7h1v1h-1zM28,7h1v1h-1zM29,7h1v1h-1zM30,7h1v1h-1zM31,7h1v1h-1zM32,7h1v1h-1zM33,7h1v1h-1zM9,8h1v1h-1zM13,8h1v1h-1zM15,8h1v1h-1zM16,8h1v1h-1zM19,8h1v1h-1zM22,8h1v1h-1zM24,8h1v1h-1zM1,9h1v1h-1zM3,9h1v1h-1zM4,9h1v1h-1zM5,9h1v1h-1zM6,9h1v1h-1zM7,9h1v1h-1zM11,9h1v1h-1zM12,9h1v1h-1zM13,9h1v1h-1zM14,9h1v1h-1zM15,9h1v1h-1zM16,9h1v1h-1zM18,9h1v1h-1zM19,9h1v1h-1zM21,9h1v1h-1zM23,9h1v1h-1zM24,9h1v1h-1zM25,9h1v1h-1zM27,9h1v1h-1zM28,9h1v1h-1zM29,9h1v1h-1zM30,9h1v1h-1zM31,9h1v1h-1zM1,10h1v1h-1zM3,10h1v1h-1zM5,10h1v1h-1zM8,10h1v1h-1zM10,10h1v1h-1zM12,10h1v1h-1zM15,10h1v1h-1zM17,10h1v1h-1zM20,10h1v1h-1zM22,10h1v1h-1zM23,10h1v1h-1zM24,10h1v1h-1zM27,10h1v1h-1zM28,10h1v1h-1zM30,10h1v1h-1zM31,10h1v1h-1zM33,10h1v1h-1zM1,11h1v1h-1zM2,11h1v1h-1zM4,11h1v1h-1zM5,11h1v1h-1zM6,11h1v1h-1zM7,11h1v1h-1zM10,11h1v1h-1zM13,11h1v1h-1zM16,11h1v1h-1zM19,11h1v1h-1zM22,11h1v1h-1zM26,11h1v1h-1zM29,11h1v1h-1zM31,11h1v1h-1zM32,11h1v1h-1zM4,12h1v1h-1zM5,12h1v1h-1zM6,12h1v1h-1zM11,12h1v1h-1zM15,12h1v1h-1zM17,12h1v1h-1zM20,12h1v1h-1zM22,12h1v1h-1zM23,12h1v1h-1zM26,12h1v1h-1zM29,12h1v1h-1zM30,12h1v1h-1zM31,12h1v1h-1zM32,12h1v1h-1zM1,13h1v1h-1zM4,13h1v1h-1zM5,13h1v1h-1zM6,13h1v1h-1zM7,13h1v1h-1zM12,13h1v1h-1zM19,13h1v1h-1zM22,13h1v1h-1zM24,13h1v1h-1zM25,13h1v1h-1zM26,13h1v1h-1zM28,13h1v1h-1zM29,13h1v1h-1zM30,13h1v1h-1zM32,13h1v1h-1zM1,14h1v1h-1zM3,14h1v1h-1zM5,14h1v1h-1zM6,14h1v1h-1zM8,14h1v1h-1zM12,14h1v1h-1zM13,14h1v1h-1zM15,14h1v1h-1zM16,14h1v1h-1zM17,14h1v1h-1zM21,14h1v1h-1zM22,14h1v1h-1zM23,14h1v1h-1zM24,14h1v1h-1zM25,14h1v1h-1zM26,14h1v1h-1zM27,14h1v1h-1zM31,14h1v1h-1zM32,14h1v1h-1zM33,14h1v1h-1zM1,15h1v1h-1zM3,15h1v1h-1zM7,15h1v1h-1zM8,15h1v1h-1zM11,15h1v1h-1zM12,15h1v1h-1zM13,15h1v1h-1zM15,15h1v1h-1zM18,15h1v1h-1zM19,15h1v1h-1zM20,15h1v1h-1zM22,15h1v1h-1zM23,15h1v1h-1zM26,15h1v1h-1zM27,15h1v1h-1zM29,15h1v1h-1zM32,15h1v1h-1zM9,16h1v1h-1zM12,16h1v1h-1zM14,16h1v1h-1zM15,16h1v1h-1zM17,16h1v1h-1zM20,16h1v1h-1zM21,16h1v1h-1zM22,16h1v1h-1zM24,16h1v1h-1zM25,16h1v1h-1zM26,16h1v1h-1zM27,16h1v1h-1zM29,16h1v1h-1zM31,16h1v1h-1zM2,17h1v1h-1zM4,17h1v1h-1zM5,17h1v1h-1zM7,17h1v1h-1zM8,17h1v1h-1zM13,17h1v1h-1zM14,17h1v1h-1zM15,17h1v1h-1zM18,17h1v1h-1zM19,17h1v1h-1zM20,17h1v1h-1zM21,17h1v1h-1zM23,17h1v1h-1zM25,17h1v1h-1zM26,17h1v1h-1zM28,17h1v1h-1zM29,17h1v1h-1zM33,17h1v1h-1zM2,18h1v1h-1zM4,18h1v1h-1zM6,18h1v1h-1zM8,18h1v1h-1zM9,18h1v1h-1zM10,18h1v1h-1zM12,18h1v1h-1zM13,18h1v1h-1zM14,18h1v1h-1zM18,18h1v1h-1zM19,18h1v1h-1zM20,18h1v1h-1zM23,18h1v1h-1zM24,18h1v1h-1zM26,18h1v1h-1zM27,18h1v1h-1zM28,18h1v1h-1zM30,18h1v1h-1zM31,18h1v1h-1zM32,18h1v1h-1zM33,18h1v1h-1zM7,19h1v1h-1zM11,19h1v1h-1zM13,19h1v1h-1zM15,19h1v1h-1zM16,19h1v1h-1zM17,19h1v1h-1zM18,19h1v1h-1zM21,19h1v1h-1zM23,19h1v1h-1zM27,19h1v1h-1zM28,19h1v1h-1zM29,19h1v1h-1zM31,19h1v1h-1zM32,19h1v1h-1zM1,20h1v1h-1zM2,20h1v1h-1zM3,20h1v1h-1zM6,20h1v1h-1zM8,20h1v1h-1zM9,20h1v1h-1zM10,20h1v1h-1zM12,20h1v1h-1zM14,20h1v1h-1zM15,20h1v1h-1zM16,20h1v1h-1zM17,20h1v1h-1zM18,20h1v1h-1zM19,20h1v1h-1zM28,20h1v1h-1zM29,20h1v1h-1zM30,20h1v1h-1zM31,20h1v1h-1zM1,21h1v1h-1zM2,21h1v1h-1zM5,21h1v1h-1zM6,21h1v1h-1zM7,21h1v1h-1zM11,21h1v1h-1zM13,21h1v1h-1zM16,21h1v1h-1zM17,21h1v1h-1zM21,21h1v1h-1zM22,21h1v1h-1zM23,21h1v1h-1zM26,21h1v1h-1zM28,21h1v1h-1zM29,21h1v1h-1zM30,21h1v1h-1zM33,21h1v1h-1zM1,22h1v1h-1zM3,22h1v1h-1zM4,22h1v1h-1zM6,22h1v1h-1zM8,22h1v1h-1zM9,22h1v1h-1zM16,22h1v1h-1zM18,22h1v1h-1zM19,22h1v1h-1zM24,22h1v1h-1zM27,22h1v1h-1zM28,22h1v1h-1zM30,22h1v1h-1zM33,22h1v1h-1zM1,23h1v1h-1zM3,23h1v1h-1zM4,23h1v1h-1zM5,23h1v1h-1zM6,23h1v1h-1zM7,23h1v1h-1zM8,23h1v1h-1zM12,23h1v1h-1zM13,23h1v1h-1zM14,23h1v1h-1zM15,23h1v1h-1zM16,23h1v1h-1zM17,23h1v1h-1zM21,23h1v1h-1zM22,23h1v1h-1zM26,23h1v1h-1zM29,23h1v1h-1zM32,23h1v1h-1zM1,24h1v1h-1zM3,24h1v1h-1zM6,24h1v1h-1zM8,24h1v1h-1zM9,24h1v1h-1zM14,24h1v1h-1zM15,24h1v1h-1zM16,24h1v1h-1zM22,24h1v1h-1zM23,24h1v1h-1zM29,24h1v1h-1zM30,24h1v1h-1zM31,24h1v1h-1zM1,25h1v1h-1zM7,25h1v1h-1zM10,25h1v1h-1zM11,25h1v1h-1zM13,25h1v1h-1zM16,25h1v1h-1zM17,25h1v1h-1zM18,25h1v1h-1zM23,25h1v1h-1zM24,25h1v1h-1zM25,25h1v1h-1zM26,25h1v1h-1zM27,25h1v1h-1zM28,25h1v1h-1zM29,25h1v1h-1zM32,25h1v1h-1zM33,25h1v1h-1zM9,26h1v1h-1zM11,26h1v1h-1zM12,26h1v1h-1zM14,26h1v1h-1zM15,26h1v1h-1zM17,26h1v1h-1zM19,26h1v1h-1zM20,26h1v1h-1zM21,26h1v1h-1zM22,26h1v1h-1zM25,26h1v1h-1zM29,26h1v1h-1zM31,26h1v1h-1zM33,26h1v1h-1zM1,27h1v1h-1zM2,27h1v1h-1zM3,27h1v1h-1zM4,27h1v1h-1zM5,27h1v1h-1zM6,27h1v1h-1zM7,27h1v1h-1zM13,27h1v1h-1zM14,27h1v1h-1zM16,27h1v1h-1zM19,27h1v1h-1zM22,27h1v1h-1zM24,27h1v1h-1zM25,27h1v1h-1zM27,27h1v1h-1zM29,27h1v1h-1zM31,27h1v1h-1zM32,27h1v1h-1zM1,28h1v1h-1zM7,28h1v1h-1zM9,28h1v1h-1zM13,28h1v1h-1zM14,28h1v1h-1zM16,28h1v1h-1zM20,28h1v1h-1zM21,28h1v1h-1zM22,28h1v1h-1zM23,28h1v1h-1zM24,28h1v1h-1zM25,28h1v1h-1zM29,28h1v1h-1zM30,28h1v1h-1zM31,28h1v1h-1zM1,29h1v1h-1zM3,29h1v1h-1zM4,29h1v1h-1zM5,29h1v1h-1zM7,29h1v1h-1zM9,29h1v1h-1zM10,29h1v1h-1zM11,29h1v1h-1zM13,29h1v1h-1zM14,29h1v1h-1zM15,29h1v1h-1zM16,29h1v1h-1zM19,29h1v1h-1zM22,29h1v1h-1zM25,29h1v1h-1zM26,29h1v1h-1zM27,29h1v1h-1zM28,29h1v1h-1zM29,29h1v1h-1zM30,29h1v1h-1zM32,29h1v1h-1zM1,30h1v1h-1zM3,30h1v1h-1zM4,30h1v1h-1zM5,30h1v1h-1zM7,30h1v1h-1zM9,30h1v1h-1zM10,30h1v1h-1zM12,30h1v1h-1zM16,30h1v1h-1zM17,30h1v1h-1zM21,30h1v1h-1zM22,30h1v1h-1zM23,30h1v1h-1zM25,30h1v1h-1zM26,30h1v1h-1zM29,30h1v1h-1zM33,30h1v1h-1zM1,31h1v1h-1zM3,31h1v1h-1zM4,31h1v1h-1zM5,31h1v1h-1zM7,31h1v1h-1zM9,31h1v1h-1zM10,31h1v1h-1zM11,31h1v1h-1zM12,31h1v1h-1zM18,31h1v1h-1zM19,31h1v1h-1zM20,31h1v1h-1zM22,31h1v1h-1zM23,31h1v1h-1zM24,31h1v1h-1zM25,31h1v1h-1zM27,31h1v1h-1zM28,31h1v1h-1zM30,31h1v1h-1zM31,31h1v1h-1zM1,32h1v1h-1zM7,32h1v1h-1zM11,32h1v1h-1zM14,32h1v1h-1zM15,32h1v1h-1zM17,32h1v1h-1zM20,32h1v1h-1zM21,32h1v1h-1zM22,32h1v1h-1zM23,32h1v1h-1zM29,32h1v1h-1zM30,32h1v1h-1zM31,32h1v1h-1zM1,33h1v1h-1zM2,33h1v1h-1zM3,33h1v1h-1zM4,33h1v1h-1zM5,33h1v1h-1zM6,33h1v1h-1zM7,33h1v1h-1zM9,33h1v1h-1zM12,33h1v1h-1zM14,33h1v1h-1zM17,33h1v1h-1zM18,33h1v1h-1zM20,33h1v1h-1zM21,33h1v1h-1zM23,33h1v1h-1zM24,33h1v1h-1zM25,33h1v1h-1zM26,33h1v1h-1zM28,33h1v1h-1zM32,33h1v1h-1z" fill="#131C26"/></svg></div>
+        <div class="cap">Наведи камеру телефона, чтобы открыть приложение</div>
+      </div>
+      <div class="links" id="links"></div>
+    </div>
+  </section>
+
+  <section class="blk" aria-labelledby="h-install">
+    <h3 id="h-install">Установить как приложение</h3>
+    <div class="steps">
+      <div class="step">
+        <h4>iPhone <span class="tag">Safari</span></h4>
+        <ol>
+          <li>Открой ссылку в <b>Safari</b> (QR-код выше открывает именно его).</li>
+          <li>Нажми <b>«Поделиться»</b> (квадрат со стрелкой) → <b>«На экран „Домой“»</b> → <b>«Добавить»</b>.</li>
+          <li>Появится иконка «Экзамены». Она открывается на весь экран без адресной строки и работает без интернета.</li>
+          <li>Нужен отдельный значок для экзамена? Открой его тренажёр и повтори шаг 2: у IELTS, GRE и DELF свои иконки.</li>
+        </ol>
+      </div>
+      <div class="step">
+        <h4>Android <span class="tag">Chrome</span></h4>
+        <ol>
+          <li>Открой ссылку в <b>Chrome</b>.</li>
+          <li>Нажми <b>⋮</b> → <b>«Установить приложение»</b> или <b>«Добавить на главный экран»</b>.</li>
+          <li>Приложение появится среди остальных, со своей иконкой и без адресной строки.</li>
+        </ol>
+      </div>
+      <div class="step">
+        <h4>Ноутбук <span class="tag">Chrome · Edge · Safari</span></h4>
+        <ol>
+          <li><b>Chrome и Edge:</b> нажми значок установки в правом конце адресной строки → «Установить». Приложение откроется в своём окне и появится в списке программ.</li>
+          <li><b>Safari на Mac:</b> «Файл» → «Добавить в Dock».</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" aria-labelledby="h-sync">
+    <h3 id="h-sync">Перенос прогресса между устройствами</h3>
+    <div class="steps two">
+      <div class="step">
+        <h4>Где хранится</h4>
+        <ol>
+          <li>Словарь, уровни карточек, черновики эссе, галочки плана и лучшие результаты хранятся на устройстве, где ты занималась.</li>
+          <li>Даты экзаменов на этой странице тоже хранятся на устройстве.</li>
+        </ol>
+      </div>
+      <div class="step">
+        <h4>Как перенести</h4>
+        <ol>
+          <li>В тренажёре открой <b>Словарь → Список</b> и нажми <b>«Сохранить прогресс в файл»</b>.</li>
+          <li>Передай файл на другое устройство: AirDrop, Telegram, почта.</li>
+          <li>Там открой тот же тренажёр → <b>Словарь → Список → «Загрузить прогресс из файла»</b>. Новые слова добавятся, уровни возьмутся лучшие.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <footer><span class="sync" id="sync">Даты сохраняются на этом устройстве</span></footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+const HUB = "https://tdementyeva2003-cpu.github.io/exams/";
+const EX = [
+  {k:"ielts", code:"IELTS", name:"IELTS Academic", sub:"Компьютерный формат 2026", target:"8.0, каждая секция от 7.5", plan:"конец ноября – начало декабря", parts:["Listening","Reading","Writing Task 1","Task 2","Speaking","Орфография"], url:"ielts.html"},
+  {k:"gre", code:"GRE", name:"GRE General Test", sub:"Короткий формат, 1 ч 58 мин", target:"168 Verbal / 165 Quant", plan:"конец ноября – начало декабря", parts:["Quant","Verbal","Analytical Writing","Орфография","Тактика"], url:"gre.html"},
+  {k:"delf", code:"DELF B2", name:"DELF B2 tout public", sub:"Новый формат, CO и CE в QCM", target:"70+ из 100, каждая часть от 15", plan:"февраль – март 2027", parts:["Compréhension de l'oral","Compréhension des écrits","Production écrite","Production orale","Орфография"], url:"delf.html"}
+];
+function h(tag, a){ const el=document.createElement(tag); if(a) for(const k in a){ const v=a[k]; if(v==null) continue; if(k==="text") el.textContent=v; else if(k.startsWith("on")) el.addEventListener(k.slice(2),v); else el.setAttribute(k,v);} for(let i=2;i<arguments.length;i++){ const c=arguments[i]; if(c==null) continue; Array.isArray(c)?c.forEach(x=>x!=null&&el.append(x)):el.append(c);} return el; }
+const LS={get(k,d){try{const v=localStorage.getItem("hub:"+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem("hub:"+k,JSON.stringify(v));}catch(e){}}};
+let dates = LS.get("dates", {});
+let toastT;
+function toast(m){ let t=document.querySelector(".toast"); if(!t){t=h("div",{class:"toast",role:"status"});document.body.append(t);} t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,2400); }
+function copy(text, btn){
+  const ok=()=>{ const o=btn.textContent; btn.textContent="Скопировано"; setTimeout(()=>btn.textContent=o,1400); };
+  const fb=()=>{ const ta=h("textarea",{style:"position:fixed;top:0;left:0;opacity:0"}); ta.value=text; document.body.append(ta); ta.select(); try{document.execCommand("copy");ok();}catch(e){toast("Выдели ссылку и скопируй вручную");} ta.remove(); };
+  try{ navigator.clipboard.writeText(text).then(ok,fb); }catch(e){ fb(); }
+}
+function daysTo(d){ if(!d) return null; return Math.ceil((new Date(d+"T09:00:00") - new Date())/86400000); }
+function plural(n){ const a=Math.abs(n)%100, b=a%10; if(a>10&&a<20) return "дней"; if(b===1) return "день"; if(b>=2&&b<=4) return "дня"; return "дней"; }
+
+const tickets=document.getElementById("tickets");
+const stubs={};
+EX.forEach(e=>{
+  const days=h("div",{class:"days"});
+  const stub=h("div",{class:"stub"}, h("div",{class:"code",text:e.code}), days);
+  stubs[e.k]=days;
+  const inp=h("input",{type:"date",id:"d-"+e.k,"aria-label":"Дата экзамена "+e.code});
+  if(dates[e.k]) inp.value=dates[e.k];
+  inp.addEventListener("change",()=>{ dates=Object.assign({},dates,{[e.k]:inp.value}); LS.set("dates",dates); drawDays(); saveDb(); });
+  const body=h("div",{class:"body"},
+    h("div",null,h("h2",{text:e.name}),h("div",{class:"sub",text:e.sub})),
+    h("dl",{class:"kv"},h("dt",{text:"Цель"}),h("dd",{text:e.target}),h("dt",{text:"План"}),h("dd",{text:e.plan})),
+    h("div",{class:"chips"},e.parts.map(p=>h("span",{text:p}))),
+    h("label",{class:"date",for:inp.id},"Дата экзамена",inp),
+    h("a",{class:"open",href:e.url},h("span",{text:"Открыть тренажёр"}),h("span",{class:"arr",text:"→"}))
+  );
+  tickets.append(h("article",{class:"ticket "+e.k},stub,h("div",{class:"perf","aria-hidden":"true"}),body));
+});
+function drawDays(){
+  EX.forEach(e=>{
+    const el=stubs[e.k]; el.innerHTML=""; const n=daysTo(dates[e.k]);
+    if(n==null){ el.className="days none"; el.append(h("span",{class:"n",text:"дата?"}),h("span",{class:"u",text:"укажи ниже"})); }
+    else if(n>0){ el.className="days"; el.append(h("span",{class:"n",text:String(n)}),h("span",{class:"u",text:plural(n)+" до экзамена"})); }
+    else if(n===0){ el.className="days none"; el.append(h("span",{class:"n",text:"сегодня"}),h("span",{class:"u",text:"удачи!"})); }
+    else { el.className="days none"; el.append(h("span",{class:"n",text:"сдан"}),h("span",{class:"u",text:"экзамен прошёл"})); }
+  });
+  requestAnimationFrame(()=>{ document.querySelectorAll(".ticket").forEach(t=>{ const s=t.querySelector(".stub"); t.style.setProperty("--stub-h", s.offsetHeight+"px"); }); });
+}
+drawDays();
+window.addEventListener("resize",drawDays);
+
+const links=document.getElementById("links");
+const rows=[{t:"Эта страница (все экзамены)",u:HUB,c:"var(--ink)"}].concat(EX.map(e=>({t:e.name,u:new URL(e.url, location.href).href,c:"var(--"+e.k+")"})));
+rows.forEach(r=>{
+  if(!r.u || r.u.indexOf("http")!==0) return;
+  const b=h("button",{class:"btn",type:"button"},"Копировать"); b.addEventListener("click",()=>copy(r.u,b));
+  const sw=h("i"); sw.style.background=r.c;
+  links.append(h("div",{class:"lrow"},sw,h("div",{style:"min-width:0"},h("a",{class:"t",href:r.u,text:r.t}),h("div",{class:"u",text:r.u})),b));
+});
+
+/* icon downloads */
+function dataUriToBlob(u){ const i=u.indexOf(","); const bin=atob(u.slice(i+1)); const a=new Uint8Array(bin.length); for(let j=0;j<bin.length;j++) a[j]=bin.charCodeAt(j); return new Blob([a],{type:"image/png"}); }
+document.querySelectorAll(".icon").forEach(card=>{
+  const img=card.querySelector("img"), btn=card.querySelector("button");
+  btn.addEventListener("click", async ()=>{
+    let dl=null;
+    try{ if(window.claude && typeof window.claude.use==="function") dl=await window.claude.use("downloads"); }catch(e){ dl=null; }
+    if(!dl){ toast("Нажми на картинку и удерживай, чтобы сохранить её"); return; }
+    try{ await dl.save({filename: img.dataset.file, data: dataUriToBlob(img.src)}); toast("Иконка сохранена"); }
+    catch(e){ if(!e || e.code!=="declined") toast("Не получилось скачать: нажми на картинку и удерживай"); }
+  });
+});
+
+/* dates sync through the page's database */
+let db=null, writing=Promise.resolve();
+function saveDb(){
+  if(!db) return;
+  const body={dates:Object.assign({},dates), t:Date.now()};
+  writing=writing.then(()=>db.doc("settings/dates").set(body)).catch(()=>{ document.getElementById("sync").textContent="Даты сохраняются на этом устройстве"; });
+}
+(async()=>{
+  try{ if(window.claude && typeof window.claude.use==="function") db=await window.claude.use("db"); }catch(e){ db=null; }
+  if(!db) return;
+  document.getElementById("sync").textContent="Даты синхронизируются между устройствами";
+  db.doc("settings/dates").onSnapshot(s=>{
+    if(!s.exists){ if(Object.keys(dates).length) saveDb(); return; }
+    const d=(s.data()||{}).dates||{};
+    dates=Object.assign({},d); LS.set("dates",dates);
+    EX.forEach(e=>{ const i=document.getElementById("d-"+e.k); if(i && i.value!==(dates[e.k]||"")) i.value=dates[e.k]||""; });
+    drawDays();
+  },()=>{});
+})();
+})();
+</script>
+<script>
+if ("serviceWorker" in navigator) { window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); }); }
+</script>
+</body>
+</html>

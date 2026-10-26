@@ -1,0 +1,31 @@
+{
+ "id": "./ielts.html",
+ "name": "Тренажёр IELTS Academic",
+ "short_name": "IELTS",
+ "lang": "ru",
+ "start_url": "./ielts.html",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#ECEEF2",
+ "theme_color": "#B42334",
+ "icons": [
+  {
+   "src": "icons/ielts-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/ielts-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/ielts-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
